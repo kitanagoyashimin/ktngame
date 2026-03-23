@@ -1,168 +1,423 @@
-<!DOCTYPE html><html lang="ja"><head>
-<meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>345億円使ってみよう！</title>
-<style>
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>345億円の使い方を決めるのは君だ！</title>
+<style>.intro-flex {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+  flex-wrap: wrap;
+}
+
+/* PCでは動画が左、説明文が右 */
+.intro-video-side {
+  flex: 1 1 20%;
+  max-width: 150px;
+  order: 1;
+}
+
+.intro-text {
+  flex: 1 1 65%;
+  order: 2;
+}
+
+.intro-video-side video {
+  width: 100%;
+  border-radius: 6px;
+}
+
+/* スマホでは縦並びにする */
+@media(max-width: 600px){
+  .intro-video-side, .intro-text {
+    flex: 1 1 100%;
+    max-width: none;
+    order: unset;
+  }
+}
+
+
 body{font-family:sans-serif;margin:0;padding:16px;background:#fdf2f2;color:#4a1f1f;}
-h1{text-align:center;color:#b03a2e;}
-.category{margin:1rem 0;background:#fff5f5;padding:12px;border-radius:8px;border:1px solid #f2c6c6;}
-label{font-weight:bold;color:#a83232;}
-input[type=range]{width:100%;accent-color:#e74c3c;height:32px;}
-input[type=range]::-webkit-slider-thumb{width:28px;height:28px;}
-.value{text-align:right;font-weight:bold;color:#c0392b;}
-#total{text-align:center;font-size:1.3rem;margin:1rem 0;color:#a83232;}
-#total.red{color:#e74c3c;}
-button{background:#c0392b;color:#fff;border:none;padding:18px;font-size:1.2rem;border-radius:8px;width:100%;margin:1rem 0;}
+h1{text-align:center;color:#b03a2e;margin:0 0 1rem;}
+h2{color:#b03a2e;margin-top:1.5rem;}
+button{background:#c0392b;color:#fff;border:none;padding:14px 18px;font-size:1rem;border-radius:8px;cursor:pointer;}
 button:hover{background:#a93226;}
-#result{display:none;}
-svg{width:100%;max-width:300px;margin:0 auto;display:block;}
+#intro,#game,#result{max-width:800px;margin:0 auto;}
+.intro-box{background:#fff5f5;border:1px solid #f2c6c6;border-radius:10px;padding:16px;margin-top:1rem;}
+video{width:100%;border-radius:8px;margin-top:8px;background:#000;}
+.start-wrap{text-align:center;margin-top:1.5rem;}
+.category{margin:0.6rem 0;border-radius:8px;border:1px solid #f2c6c6;background:#fff5f5;overflow:hidden;}
+.cat-header{display:flex;justify-content:space-between;align-items:center;padding:10px 12px;cursor:pointer;}
+.cat-title{font-weight:bold;color:#a83232;}
+.cat-value{font-weight:bold;color:#c0392b;font-size:0.9rem;}
+.cat-body{padding:8px 12px 12px;display:none;}
+input[type=range]{width:100%;accent-color:#e74c3c;height:32px;}
+input[type=range]::-webkit-slider-thumb{width:26px;height:26px;}
+#total{text-align:center;font-size:1.1rem;margin:0.8rem 0;color:#a83232;}
+#total.red{color:#e74c3c;}
+#remainBox{margin:0.8rem 0;}
+#remainText{font-weight:bold;}
+#remainBar{width:100%;height:18px;background:#ffe5e5;border-radius:10px;overflow:hidden;margin-top:4px;}
+#remainFill{height:100%;width:0;background:#e74c3c;}
+svg{width:100%;max-width:320px;margin:0 auto;display:block;}
 table{width:100%;border-collapse:collapse;margin:1rem 0;display:block;overflow-x:auto;white-space:nowrap;}
-th,td{border:1px solid #f2c6c6;padding:6px;text-align:center;}
+th,td{border:1px solid #f2c6c6;padding:6px 8px;text-align:center;font-size:0.85rem;}
 th{background:#f9d6d6;}
-.comment-box{background:#ffecec;padding:16px;border-radius:8px;margin:1rem 0;border:1px solid #f2c6c6;}
-.reality-box{background:#fff3cd;padding:16px;border-radius:8px;margin:1rem 0;}
-.alert-box{background:#ffebee;padding:12px;border-radius:8px;margin:1rem 0;color:#c62828;font-weight:bold;text-align:center;}
-@media(max-width:480px){svg{max-width:220px;}}
+.comment-box{background:#ffecec;padding:14px;border-radius:8px;margin:1rem 0;border:1px solid #f2c6c6;}
+.reality-box{background:#fff3cd;padding:14px;border-radius:8px;margin:1rem 0;}
+.alert-box{background:#ffebee;padding:10px;border-radius:8px;margin:0.8rem 0;color:#c62828;font-weight:bold;text-align:center;}
+@media(max-width:480px){
+  button{width:100%;}
+}
 </style>
-</head><body>
+</head>
+<body>
 
-<h1>あなたが主役！　伊藤だいすけと考える北名古屋市 市民のための345億円</h1>
+<div id="intro">
+  <h1>伊藤だいすけと考える　北名古屋市予算345億円の使い方</h1>
 
-<div id="allocator">
+  <div class="intro-box">
+
+    <div class="intro-flex">
+      <!-- 左：小さな動画（PCでは左側） -->
+      <div class="intro-video-side">
+        <video 
+          src="intro.mp4" 
+          autoplay 
+          muted 
+          playsinline 
+          loop
+        ></video>
+      </div>
+
+      <!-- 右：説明文 -->
+      <div class="intro-text">
+        <h2>ゲームのルール</h2>
+        <p>
+          北名古屋市の一般会計345億円を、あなたが配分するゲームです。<br>
+          教育・福祉・公共交通・インフラ・ジェンダー・環境・産業など、12項目に自由に予算を振り分けてください。
+        </p>
+        <ul>
+          <li>合計345億円以内ならOK（余らせてもよい）</li>
+          <li>345億円を超えると「お金が足りません！」と怒られます</li>
+          <li>配分後、「現実の北名古屋市」との違いがグラフとコメントで表示されます</li>
+          <li>極端な配分をすると、ちゃんとツッコミが入ります</li>
+        </ul>
+        <p>まずは、ざっくり「自分ならこうする」を試してみてください。</p>
+      </div>
+    </div>
+
+    <div class="start-wrap">
+      <button onclick="startGame()">ゲームを始める</button>
+    </div>
+  </div>
+</div>
+
+
+<div id="game" style="display:none;">
+  <h1>北名古屋市345億円予算バトル</h1>
+
+  <div id="remainBox">
+    <span id="remainText">予算限度まで、あと 345 億円</span>
+    <div id="remainBar"><div id="remainFill"></div></div>
+  </div>
+
+  <div id="allocator">
+    <!-- カテゴリはJSで中身を埋める -->
+  </div>
+
+  <div id="total">合計: <span id="sum">0</span> 億円</div>
+  <button onclick="submitBudget()">この配分で決定する</button>
+</div>
+
+<div id="result" style="display:none;">
+  <h1>結果</h1>
+
+  <h2>あなたの予算配分（円グラフ）</h2>
+  <svg id="pie" viewBox="0 0 32 32"></svg>
+
+  <div id="budget-status" class="alert-box" style="display:none;"></div>
+
+  <h2>現実との比較（％）</h2>
+  <div id="comparison"></div>
+
+  <h2>現実の北名古屋市の予算</h2>
+  <div class="reality-box">
+    教育10.9% / 公共交通8.5% / 福祉47.2% / ジェンダー2% / 環境8% / 土木8.5% / 行政7% / 公債費5% / 産業2.9% / その他0%
+  </div>
+
+  <h2>予算アドバイザーのコメント</h2>
+  <div class="comment-box" id="joke-comment"></div>
+
+  <div class="start-wrap">
+    <button onclick="restartGame()">もう一度やる</button>
+  </div>
+</div>
+
 <script>
-const cats=["edu","bus","welfare","gender","env","infra","admin","debt","industry","other","free","jaga"];
-const labels=["教育","公共交通","福祉","ジェンダー","環境","土木","行政","公債費","産業","その他","私が自由に使う","じゃがりこ購入費"];
-const colors=["#3498db","#e74c3c","#2ecc71","#f1c40f","#9b59b6","#1abc9c","#e67e22","#34495e","#16a085","#95a5a6","#7f8c8d","#f39c12"];
-const reality=[10.9,8.5,47.2,2,8,8.5,7,5,2.9,0,0,0];
+const MAX_BUDGET = 345;
 
-function addSlider(id,label,val){
-document.write(`<div class='category'><label>${label}</label>
-<input type='range' id='${id}' min='0' max='345' value='${val}'/>
-<div class='value' id='${id}Val'>${val}億円</div></div>`);
+const categories = [
+  {id:"edu",     label:"教育・学校関連"},
+  {id:"bus",     label:"公共交通"},
+  {id:"welfare", label:"福祉・子育て支援"},
+  {id:"gender",  label:"ジェンダー平等推進"},
+  {id:"env",     label:"環境・ゴミ処理"},
+  {id:"infra",   label:"土木・インフラ"},
+  {id:"admin",   label:"行政運営"},
+  {id:"debt",    label:"公債費（借金返済）"},
+  {id:"industry",label:"産業・経済"},
+  {id:"other",   label:"その他"},
+  {id:"free",    label:"プレイヤーが好き勝手に使う"},
+  {id:"jaga",    label:"じゃがりこ購入費"}
+];
+
+const labels = [
+  "教育","公共交通","福祉","ジェンダー","環境",
+  "土木","行政","公債費","産業","その他",
+  "好き勝手に使う","じゃがりこ購入費"
+];
+
+const colors = [
+  "#3498db","#e74c3c","#2ecc71","#f1c40f","#9b59b6",
+  "#1abc9c","#e67e22","#34495e","#16a085","#95a5a6",
+  "#7f8c8d","#f39c12"
+];
+
+const reality = [
+  10.9,8.5,47.2,2,8,
+  8.5,7,5,2.9,0,
+  0,0
+];
+
+function startGame(){
+  document.getElementById("intro").style.display = "none";
+  document.getElementById("game").style.display = "block";
+  buildSliders();
+  updateSum();
 }
-addSlider("edu","教育・学校関連",30);
-addSlider("bus","公共交通",20);
-addSlider("welfare","福祉・子育て支援",160);
-addSlider("gender","ジェンダー平等推進",7);
-addSlider("env","環境・ゴミ処理",28);
-addSlider("infra","土木・インフラ",30);
-addSlider("admin","行政運営",24);
-addSlider("debt","公債費（借金返済）",17);
-addSlider("industry","産業・経済",10);
-addSlider("other","その他",10);
-addSlider("free","私が自由に使う",5);
-addSlider("jaga","じゃがりこ購入費",4);
-</script>
 
-<div id="total">合計: <span id="sum">345</span>億円</div>
-<button onclick="submitBudget()">決定して結果を見る</button>
-</div>
+function restartGame(){
+  // 全スライダー0に戻す
+  categories.forEach(c=>{
+    const el = document.getElementById(c.id);
+    if(el){ el.value = 0; }
+    const v = document.getElementById(c.id+"Val");
+    if(v){ v.textContent = "0 億円"; }
+  });
+  updateSum();
+  document.getElementById("result").style.display = "none";
+  document.getElementById("game").style.display = "block";
+}
 
-<div id="result">
-<h2>あなたの予算配分</h2>
-<svg id="pie" viewBox="0 0 32 32"></svg>
-<div id="budget-status" class="alert-box" style="display:none;"></div>
-<h2>比較（%）</h2><div id="comparison"></div>
+function buildSliders(){
+  const wrap = document.getElementById("allocator");
+  wrap.innerHTML = "";
+  categories.forEach(c=>{
+    const div = document.createElement("div");
+    div.className = "category";
+    div.innerHTML = `
+      <div class="cat-header" onclick="toggleCatBody('${c.id}')">
+        <span class="cat-title">${c.label}</span>
+        <span class="cat-value" id="${c.id}Val">0 億円</span>
+      </div>
+      <div class="cat-body" id="${c.id}Body">
+        <input type="range" id="${c.id}" min="0" max="${MAX_BUDGET}" value="0">
+      </div>
+    `;
+    wrap.appendChild(div);
+  });
 
-<h2>現実の北名古屋市の予算</h2>
-<div class="reality-box">
-教育10.9% / 公共交通8.5% / 福祉47.2% / ジェンダー2% / 環境8% / 土木8.5% / 行政7% / 公債費5% / 産業2.9%
-</div>
+  categories.forEach(c=>{
+    const s = document.getElementById(c.id);
+    const v = document.getElementById(c.id+"Val");
+    s.addEventListener("input",()=>{
+      v.textContent = s.value + " 億円";
+      updateSum();
+    });
+  });
+}
 
-<h2>だいすけコメント</h2>
-<div class="comment-box" id="joke-comment"></div>
-<button onclick="location.reload()">もう一度やる</button>
-</div>
+function toggleCatBody(id){
+  const body = document.getElementById(id+"Body");
+  if(!body) return;
+  body.style.display = (body.style.display==="block" ? "none" : "block");
+}
 
-<script>
 function updateSum(){
-let s=0;cats.forEach(c=>s+=+document.getElementById(c).value);
-document.getElementById("sum").textContent=s;
-document.getElementById("total").className=(s===345?"":"red");
+  let sum = 0;
+  categories.forEach(c=>{
+    const el = document.getElementById(c.id);
+    if(el) sum += Number(el.value||0);
+  });
+  document.getElementById("sum").textContent = sum;
+
+  const totalEl = document.getElementById("total");
+  totalEl.className = (sum===MAX_BUDGET ? "" : "red");
+
+  const remain = MAX_BUDGET - sum;
+  const remainText = document.getElementById("remainText");
+  if(remain > 0){
+    remainText.textContent = `予算限度まで、あと ${remain} 億円`;
+  }else if(remain === 0){
+    remainText.textContent = "ちょうど345億円を使い切っています";
+  }else{
+    remainText.textContent = `予算オーバー：${-remain} 億円`;
+  }
+  const fill = document.getElementById("remainFill");
+  const usedRatio = Math.min(Math.max(sum / MAX_BUDGET, 0), 1);
+  fill.style.width = (usedRatio*100) + "%";
 }
-cats.forEach(c=>{
-let el=document.getElementById(c),v=document.getElementById(c+"Val");
-el.addEventListener("input",()=>{v.textContent=el.value+"億円";updateSum();});
-});
 
-function getPoint(t){let a=2*Math.PI*t-Math.PI/2;return[16+16*Math.cos(a),16+16*Math.sin(a)];}
+function getPoint(t){
+  const angle = 2*Math.PI*t - Math.PI/2;
+  return [16 + 16*Math.cos(angle), 16 + 16*Math.sin(angle)];
+}
 
-function drawPie(p){
-let svg=document.getElementById("pie");svg.innerHTML="";let cum=0;
-p.forEach((v,i)=>{
-let s=getPoint(cum);cum+=v/100;let e=getPoint(cum),lg=v>50?1:0;
-let d=`M16 16 L${s[0]} ${s[1]} A16 16 0 ${lg} 1 ${e[0]} ${e[1]} Z`;
-let path=document.createElementNS("http://www.w3.org/2000/svg","path");
-path.setAttribute("d",d);path.setAttribute("fill",colors[i]);svg.appendChild(path);
-});
+function drawPie(percents){
+  const svg = document.getElementById("pie");
+  svg.innerHTML = "";
+  let cumulative = 0;
+  percents.forEach((p,i)=>{
+    if(p<=0) return;
+    const start = getPoint(cumulative);
+    cumulative += p/100;
+    const end = getPoint(cumulative);
+    const large = p > 50 ? 1 : 0;
+    const d = `M16 16 L${start[0]} ${start[1]} A16 16 0 ${large} 1 ${end[0]} ${end[1]} Z`;
+    const path = document.createElementNS("http://www.w3.org/2000/svg","path");
+    path.setAttribute("d", d);
+    path.setAttribute("fill", colors[i]);
+    svg.appendChild(path);
+  });
 }
 
 function submitBudget(){
-let vals=cats.map(c=>+document.getElementById(c).value);
-let total=vals.reduce((a,b)=>a+b,0);
-let st=document.getElementById("budget-status");
-if(total>345){alert("お金が足りません！");return;}
-st.style.display=(total<345?"block":"none");
-if(total<345)st.innerHTML=`${345-total}億円の余りがあります`;
+  const values = categories.map(c=>Number(document.getElementById(c.id).value||0));
+  const total = values.reduce((a,b)=>a+b,0);
+  const status = document.getElementById("budget-status");
 
-let p=vals.map(v=>Math.round(v/345*100));
-drawPie(p);
+  if(total > MAX_BUDGET){
+    alert("お金が足りません！345億円を超えています。");
+    return;
+  }
 
-/* 比較表 */
-let h="<table><tr><th>項目</th><th>あなた</th><th>現実</th></tr>";
-labels.forEach((l,i)=>h+=`<tr><td>${l}</td><td>${p[i]}%</td><td>${reality[i]}%</td></tr>`);
-document.getElementById("comparison").innerHTML=h+"</table>";
+  if(total < MAX_BUDGET){
+    status.style.display = "block";
+    status.textContent = `まだ ${MAX_BUDGET-total} 億円の余りがあります。あえて残すのも戦略ですが、本当にいいですか？`;
+  }else{
+    status.style.display = "none";
+  }
 
-/* コメント */
-let c=[];
-let fi=10,ji=11;
+  const percents = values.map(v=>Math.round(v/MAX_BUDGET*100));
+  drawPie(percents);
 
-/* じゃがりこ */
-if(p[ji]>0){
-if(p[ji]>=20)c.push("じゃがりこに20%！？ 北名古屋市がカルビーに買収されたんか？ 無茶しよるな〜。");
-else if(p[ji]>=10)c.push("じゃがりこ大量購入計画、議会で確実に炎上します。");
-else c.push("じゃがりこは自腹で買おう。税金の使い道としてはギリギリアウトです。");
+  let html = "<table><tr><th>項目</th><th>あなた</th><th>現実</th></tr>";
+  labels.forEach((l,i)=>{
+    html += `<tr><td>${l}</td><td>${percents[i]}%</td><td>${reality[i]}%</td></tr>`;
+  });
+  html += "</table>";
+  document.getElementById("comparison").innerHTML = html;
+
+  const commentList = [];
+  const freeIndex = 10;
+  const jagaIndex = 11;
+
+  // じゃがりこ
+  if(percents[jagaIndex] > 0){
+    if(percents[jagaIndex] >= 20){
+      commentList.push("じゃがりこに20%以上！？ 北名古屋市がスナック王国になっとる。議会どころか全国ニュース案件です。");
+    }else if(percents[jagaIndex] >= 10){
+      commentList.push("じゃがりこ大量購入計画、確実に炎上します。せめておやつは自腹で…。");
+    }else{
+      commentList.push("じゃがりこは愛だが、税金で買うのはギリギリアウトです。");
+    }
+  }
+
+  // 好き勝手に使う
+  if(percents[freeIndex] > 0){
+    if(percents[freeIndex] >= 20){
+      commentList.push("税金の私物化どころじゃない！北名古屋市があなたの財布になっとる。監査委員が飛んできます。");
+    }else if(percents[freeIndex] >= 10){
+      commentList.push("自由に使いすぎ！議会がざわつくレベルです。説明責任フルコンボ。");
+    }else{
+      commentList.push("ちょっとだけ…のつもりでも、税金の私物化はアウトです。");
+    }
+  }
+
+  // 極端な配分へのツッコミ（強め）
+  if(percents[0] >= 70){
+    commentList.push("教育に全振り！？ 他の部署が一斉に抗議に来るレベルです。未来は明るいけど、現在が持たない。");
+  }
+  if(percents[2] >= 80){
+    commentList.push("福祉に80%以上！福祉惑星・北名古屋。優しさは満点だけど、他の機能が息してません。");
+  }
+  if(percents[7] === 0 && reality[7] > 0){
+    commentList.push("公債費ゼロ！？ 借金返済を完全スルー。財政担当が静かに倒れます。");
+  }
+  if(percents[5] === 0 && reality[5] > 0){
+    commentList.push("土木・インフラゼロ配分。道路も橋もそのまま放置プレイです。");
+  }
+  if(percents[1] === 0 && reality[1] > 0){
+    commentList.push("公共交通ゼロ。車を持っていない人たちからブーイングの嵐が来そうです。");
+  }
+
+  // 極端配分（まだコメントがない場合）
+  if(commentList.length === 0){
+    if(percents[2] >= 60){
+      commentList.push("福祉をとても重視した配分ですね。街の安心感がぐっと高まりそうです。");
+    }else if(percents[0] >= 40){
+      commentList.push("教育にしっかり投資しています。未来への本気度が伝わってきます。");
+    }else if(percents[3] >= 20){
+      commentList.push("ジェンダー平等を強く推進する配分です。誰にとっても暮らしやすい街を目指す姿勢が見えます。");
+    }else if(percents[1] >= 30){
+      commentList.push("公共交通を手厚くしています。移動のしやすさが大きく改善しそうです。");
+    }else if(percents[4] >= 30){
+      commentList.push("環境政策に力を入れています。未来志向の街づくりですね。");
+    }else if(percents[5] >= 30){
+      commentList.push("土木・インフラに大投資！道路がピカピカになりそうです。");
+    }else if(percents[6] >= 30){
+      commentList.push("行政運営にここまで！？市役所が超豪華庁舎になる未来が見えます。");
+    }else if(percents[7] >= 30){
+      commentList.push("公債費に全振り！借金返済に本気すぎるストイックな配分です。");
+    }else if(percents[8] >= 30){
+      commentList.push("産業・経済に全集中！北名古屋市が経済都市として覚醒しそうです。");
+    }
+  }
+
+  // メリハリ型
+  if(commentList.length === 0 &&
+     Math.max(...percents) - Math.min(...percents) >= 25){
+    commentList.push("メリハリのある配分です。優先順位がはっきりしていて分かりやすいですね。");
+  }
+
+  // A案との距離
+  let diffSum = 0;
+  for(let i=0;i<percents.length;i++){
+    diffSum += Math.abs(percents[i] - reality[i]);
+  }
+  const avgDiff = diffSum / percents.length;
+  let realityComment = "";
+  if(avgDiff <= 6){
+    realityComment = "現実の北名古屋市の予算構成にかなり近い配分です。行政の実情をよく理解したバランス型と言えます。";
+  }else if(avgDiff <= 12){
+    realityComment = "現実の北名古屋市の予算と部分的に似ていますが、独自の方向性もあります。あなたらしさが出ています。";
+  }else{
+    realityComment = "現実の北名古屋市とはかなり異なる配分です。あなたの価値観が強く反映されたチャレンジングな案ですね。";
+  }
+
+  if(commentList.length === 0){
+    commentList.push("バランスよく配分されています。現実の行政より柔軟で、住民説明会でも拍手が起きそうです。");
+  }
+
+  document.getElementById("joke-comment").innerHTML =
+    realityComment + "<br><br>" + commentList.join("<br>");
+
+  document.getElementById("game").style.display = "none";
+  document.getElementById("result").style.display = "block";
 }
-
-/* 私が自由に使う */
-if(p[fi]>0){
-if(p[fi]>=20)c.push("税金の私物化どころじゃない！北名古屋市があなたの財布になっとる。無茶しよるな〜。");
-else if(p[fi]>=10)c.push("自由に使いすぎ！議会がざわつくやつです。");
-else c.push("税金の私物化はいかんよ。ちょっとだけなら…いや、ダメです。");
-}
-
-/* 極端配分 */
-if(c.length===0){
-if(p[2]>=60)c.push("福祉をとても重視した配分ですね。街の安心感がぐっと高まりそうです。");
-else if(p[0]>=40)c.push("教育にしっかり投資しています。未来への本気度が伝わってきます。");
-else if(p[3]>=20)c.push("ジェンダー平等を強く推進する配分です。誰にとっても暮らしやすい街を目指す姿勢が見えます。");
-else if(p[1]>=30)c.push("公共交通を手厚くしています。移動のしやすさが大きく改善しそうです。");
-else if(p[4]>=30)c.push("環境政策に力を入れています。未来志向の街づくりですね。");
-else if(p[5]>=30)c.push("土木・インフラに大投資！道路がピカピカになりそうです。");
-else if(p[6]>=30)c.push("行政運営にここまで！？市役所が超豪華庁舎になる未来が見えます。");
-else if(p[7]>=30)c.push("公債費に全振り！借金返済に本気すぎるストイックな配分です。");
-else if(p[8]>=30)c.push("産業・経済に全集中！北名古屋市が経済都市として覚醒しそうです。");
-}
-
-/* メリハリ */
-if(c.length===0 && Math.max(...p)-Math.min(...p)>=25)
-c.push("メリハリのある配分です。優先順位がはっきりしていて分かりやすいですね。");
-
-/* A案距離 */
-let diff=p.reduce((a,b,i)=>a+Math.abs(b-reality[i]),0)/p.length;
-let rc=(diff<=6?"現実の北名古屋市の予算構成にかなり近い配分です。":
-diff<=12?"現実の北名古屋市の予算と部分的に似ていますが、独自の方向性もあります。":
-"現実の北名古屋市とは異なる方向性の配分です。あなたの価値観が強く反映されています。");
-
-/* バランス */
-if(c.length===0)c.push("バランスよく配分されています。現実の行政より柔軟で、住民説明会でも拍手が起きそうです。");
-
-document.getElementById("joke-comment").innerHTML=rc+"<br><br>"+c.join("<br>");
-document.getElementById("allocator").style.display="none";
-document.getElementById("result").style.display="block";
-}
-
-updateSum();
 </script>
 
-</body></html>
-
+</body>
+</html>
