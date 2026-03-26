@@ -379,7 +379,7 @@ function submitBudget(){
     }
   }
 
-  // 極端な配分へのツッコミ（強め）
+  // 極端な配分へのツッコミ
   if(percents[0] >= 70){
     commentList.push("教育に全振り！？ 他の部署が一斉に抗議に来るレベルです。未来は明るいけど、現在が持たない。");
   }
@@ -396,7 +396,6 @@ function submitBudget(){
     commentList.push("公共交通ゼロ。車を持っていない人たちからブーイングの嵐が来そうです。");
   }
 
-  // 極端配分（まだコメントがない場合）
   if(commentList.length === 0){
     if(percents[2] >= 60){
       commentList.push("福祉をとても重視した配分ですね。街の安心感がぐっと高まりそうです。");
@@ -419,13 +418,11 @@ function submitBudget(){
     }
   }
 
-  // メリハリ型
   if(commentList.length === 0 &&
      Math.max(...percents) - Math.min(...percents) >= 25){
     commentList.push("メリハリのある配分です。優先順位がはっきりしていて分かりやすいですね。");
   }
 
-  // A案との距離
   let diffSum = 0;
   for(let i=0;i<percents.length;i++){
     diffSum += Math.abs(percents[i] - reality[i]);
@@ -449,14 +446,19 @@ function submitBudget(){
 
   document.getElementById("game").style.display = "none";
   document.getElementById("result").style.display = "block";
-// 共有URL生成
-const params = new URLSearchParams();
-categories.forEach((c, i) => {
-  params.set(c.id, values[i]);
-});
-const shareURL = location.origin + location.pathname + "?" + params.toString();
-document.getElementById("share-url").value = shareURL;
-setTimeout(()=>{},0);
+
+  /* ★★★ スマホ対応：共有URL生成（ここが最重要） ★★★ */
+  setTimeout(() => {
+    const params = new URLSearchParams();
+    categories.forEach((c, i) => {
+      params.set(c.id, values[i]);
+    });
+    const shareURL = location.origin + location.pathname + "?" + params.toString();
+    document.getElementById("share-url").value = shareURL;
+  }, 120);  // ← iPhone Safari で最も安定する値
+
+}
+;
 
 }
 function shareToX(){
