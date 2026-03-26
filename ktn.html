@@ -459,11 +459,9 @@ setTimeout(() => {
 
   const box = document.getElementById("share-url");
   if (box) box.value = shareURL;
-}, 150);  // ← ここまでが submitBudget の中
+}, 150);  // ← ここまでが submitBudget() の中
 
-} // ★ これが submitBudget() の「最後の1個だけの」閉じカッコ
-
+}  // ← ★これが submitBudget() の最後の1個だけのカッコ
 </script>
-
 </body>
 </html>
