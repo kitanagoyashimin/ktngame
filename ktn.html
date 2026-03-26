@@ -445,24 +445,22 @@ function submitBudget(){
 
  document.getElementById("joke-comment").innerHTML =
   realityComment + "<br><br>" + commentList.join("<br>");
-} // ← ★ submitBudget() を閉じる本物のカッコ（あなたのコードでは消えている）
 
 document.getElementById("game").style.display = "none";
 document.getElementById("result").style.display = "block";
 
-/* ★ スマホ対応：共有URL生成（ここが正しい位置） ★ */
+/* ★ スマホ対応：共有URL生成（必ず submitBudget() の中に置く） ★ */
 setTimeout(() => {
   const params = new URLSearchParams();
   categories.forEach((c, i) => {
-    params.set(c.id, values[i]);
+    params.set(c.id, values[i]);  // ← values が使えるのは関数の中だけ
   });
   const shareURL = location.origin + location.pathname + "?" + params.toString();
-
-  const box = document.getElementById("share-url");
-  if (box) box.value = shareURL;
+  document.getElementById("share-url").value = shareURL;
 }, 150);
 
 } // ← ★ これが submitBudget() の最後の1個だけのカッコ
 </script>
+
 </body>
 </html>
