@@ -60,21 +60,6 @@ video{width:100%;border-radius:8px;margin-top:8px;background:#000;}
 .cat-body{padding:8px 12px 12px;display:none;}
 input[type=range]{width:100%;accent-color:#e74c3c;height:32px;}
 input[type=range]::-webkit-slider-thumb{width:26px;height:26px;}
-/* ===== スマホ誤操作防止（確実に効く版） ===== */
-@media(max-width:600px){
-
-  /* バー部分をタップしても値が飛ばないようにする */
-  input[type=range] {
-    pointer-events: none;
-    height: 40px;
-  }
-  input[type=range]::-webkit-slider-thumb {
-    pointer-events: auto;
-    width: 40px;
-    height: 40px;
-  }
-}
-
 #total{text-align:center;font-size:1.1rem;margin:0.8rem 0;color:#a83232;}
 #total.red{color:#e74c3c;}
 #remainBox{margin:0.8rem 0;}
@@ -91,6 +76,23 @@ th{background:#f9d6d6;}
 @media(max-width:480px){
   button{width:100%;}
 }
+/* SNSボタン */
+.sns-btn{
+  display:block;
+  width:100%;
+  padding:10px;
+  margin-bottom:8px;
+  color:#fff;
+  border:none;
+  border-radius:8px;
+  font-size:1rem;
+  cursor:pointer;
+}
+.sns-x{ background:#000000; }
+.sns-line{ background:#06C755; }
+.sns-facebook{ background:#1877F2; }
+.sns-bluesky{ background:#0285FF; }
+
 </style>
 </head>
 <body>
@@ -172,6 +174,16 @@ th{background:#f9d6d6;}
   <div class="comment-box" id="joke-comment"></div>
 
   <div class="start-wrap">
+<h2>SNSで共有する</h2>
+<div id="share-section" style="margin-top:20px;">
+  <input id="share-url" type="text" readonly style="width:100%;margin-bottom:10px;">
+
+  <button class="sns-btn sns-x" onclick="shareToX()">X（Twitter）</button>
+  <button class="sns-btn sns-line" onclick="shareToLINE()">LINE</button>
+  <button class="sns-btn sns-facebook" onclick="shareToFacebook()">Facebook</button>
+  <button class="sns-btn sns-bluesky" onclick="shareToBluesky()">Bluesky</button>
+</div>
+
     <button onclick="restartGame()">もう一度やる</button>
   </div>
 </div>
@@ -189,7 +201,7 @@ const categories = [
   {id:"admin",   label:"行政運営"},
   {id:"debt",    label:"公債費（借金返済）"},
   {id:"industry",label:"産業・経済"},
-  {id:"other",   label:"その他(地域防災費など)"},
+  {id:"other",   label:"その他(地域防災など)"},
   {id:"free",    label:"プレイヤーが好き勝手に使う"},
   {id:"jaga",    label:"じゃがりこ購入費"}
 ];
@@ -258,12 +270,6 @@ function buildSliders(){
       updateSum();
     });
   });
-
-  /* ←←← ここに追加する！！ */
-  categories.forEach(c=>{
-    const s = document.getElementById(c.id);
-    preventSliderJump(s);
-  });
 }
 
 function toggleCatBody(id){
@@ -317,33 +323,6 @@ function drawPie(percents){
     path.setAttribute("d", d);
     path.setAttribute("fill", colors[i]);
     svg.appendChild(path);
-  });
-}
-function preventSliderJump(slider) {
-  let dragging = false;
-
-  slider.addEventListener("pointerdown", (e) => {
-    const rect = slider.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const thumbPos = (slider.value - slider.min) / (slider.max - slider.min) * rect.width;
-
-    if (Math.abs(x - thumbPos) > 20) {
-      e.preventDefault();
-      return;
-    }
-
-    dragging = true;
-  });
-
-  slider.addEventListener("pointermove", (e) => {
-    if (!dragging) {
-      e.preventDefault();
-      return;
-    }
-  });
-
-  slider.addEventListener("pointerup", () => {
-    dragging = false;
   });
 }
 
@@ -470,7 +449,38 @@ function submitBudget(){
 
   document.getElementById("game").style.display = "none";
   document.getElementById("result").style.display = "block";
+// 共有URL生成
+const params = new URLSearchParams();
+categories.forEach((c, i) => {
+  params.set(c.id, values[i]);
+});
+const shareURL = location.origin + location.pathname + "?" + params.toString();
+document.getElementById("share-url").value = shareURL;
+
 }
+function shareToX(){
+  const url = encodeURIComponent(document.getElementById("share-url").value);
+  const text = encodeURIComponent("北名古屋市の予算を配分してみた！");
+  window.open(`https://twitter.com/intent/tweet?text=${text}&url=${url}`);
+}
+
+function shareToLINE(){
+  const url = encodeURIComponent(document.getElementById("share-url").value);
+  const text = encodeURIComponent("北名古屋市の予算を配分してみた！");
+  window.open(`https://line.me/R/msg/text/?${text}%0A${url}`);
+}
+
+function shareToFacebook(){
+  const url = encodeURIComponent(document.getElementById("share-url").value);
+  window.open(`https://www.facebook.com/sharer/sharer.php?u=${url}`);
+}
+
+function shareToBluesky(){
+  const url = encodeURIComponent(document.getElementById("share-url").value);
+  const text = encodeURIComponent("北名古屋市の予算を配分してみた！");
+  window.open(`https://bsky.app/intent/compose?text=${text}%20${url}`);
+}
+
 </script>
 
 </body>
