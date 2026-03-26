@@ -439,27 +439,28 @@ function submitBudget(){
     realityComment = "現実の北名古屋市とはかなり異なる配分です。あなたの価値観が強く反映されたチャレンジングな案ですね。";
   }
 
-  if(commentList.length === 0){
+   if(commentList.length === 0){
     commentList.push("バランスよく配分されています。現実の行政より柔軟で、住民説明会でも拍手が起きそうです。");
   }
 
- document.getElementById("joke-comment").innerHTML =
-  realityComment + "<br><br>" + commentList.join("<br>");
+  document.getElementById("joke-comment").innerHTML =
+    realityComment + "<br><br>" + commentList.join("<br>");
 
-document.getElementById("game").style.display = "none";
-document.getElementById("result").style.display = "block";
+  document.getElementById("game").style.display = "none";
+  document.getElementById("result").style.display = "block";
 
-/* ★ スマホ対応：共有URL生成（必ず submitBudget() の中に置く） ★ */
-setTimeout(() => {
-  const params = new URLSearchParams();
-  categories.forEach((c, i) => {
-    params.set(c.id, values[i]);  // ← values が使えるのは関数の中だけ
-  });
-  const shareURL = location.origin + location.pathname + "?" + params.toString();
-  document.getElementById("share-url").value = shareURL;
-}, 150);
+  /* ★ スマホ対応：共有URL生成（必ず submitBudget() の中に置く） ★ */
+  setTimeout(() => {
+    const params = new URLSearchParams();
+    categories.forEach((c, i) => {
+      params.set(c.id, values[i]);
+    });
+    const shareURL = location.origin + location.pathname + "?" + params.toString();
+    document.getElementById("share-url").value = shareURL;
+  }, 150);
 
 } // ← ★ submitBudget() の最後の1個だけのカッコ（ここで終わり）
+
 
 </script>
 
