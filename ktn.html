@@ -177,10 +177,10 @@ th{background:#f9d6d6;}
 <div id="share-section" style="margin-top:20px;">
   <input id="share-url" type="text" readonly style="width:100%;margin-bottom:10px;">
 
-  <button class="sns-btn sns-x" onclick="shareToX()">X（Twitter）</button>
-  <button class="sns-btn sns-line" onclick="shareToLINE()">LINE</button>
-  <button class="sns-btn sns-facebook" onclick="shareToFacebook()">Facebook</button>
-  <button class="sns-btn sns-bluesky" onclick="shareToBluesky()">Bluesky</button>
+  <button id="share-x" class="sns-btn sns-x" type="button">X（Twitter）</button>
+  <button id="share-line" class="sns-btn sns-line" type="button">LINE</button>
+  <button id="share-facebook" class="sns-btn sns-facebook" type="button">Facebook</button>
+  <button id="share-bluesky" class="sns-btn sns-bluesky" type="button">Bluesky</button>
 </div>
 
     <button onclick="restartGame()">もう一度やる</button>
@@ -461,27 +461,32 @@ function submitBudget(){
 
 } // ← ★ submitBudget() の最後の1個だけのカッコ（ここで終わり）
 
-/* X（Twitter） */
+/* ★ ② 共有ボタンにイベントを登録（スマホで確実に発火） ★ */
+document.getElementById("share-x").addEventListener("click", shareToX);
+document.getElementById("share-line").addEventListener("click", shareToLINE);
+document.getElementById("share-facebook").addEventListener("click", shareToFacebook);
+document.getElementById("share-bluesky").addEventListener("click", shareToBluesky);
+
+
+
+/* ★ ③ SNS共有関数（全環境対応） ★ */
 function shareToX(){
   const url = encodeURIComponent(document.getElementById("share-url").value);
   const text = encodeURIComponent("北名古屋市の予算を配分してみた！");
   window.location.href = `https://twitter.com/intent/tweet?text=${text}&url=${url}`;
 }
 
-/* LINE（全環境対応） */
 function shareToLINE(){
   const shareURL = document.getElementById("share-url").value;
   const text = encodeURIComponent("北名古屋市の予算を配分してみた！\n" + shareURL);
   window.location.href = "https://line.me/R/share?text=" + text;
 }
 
-/* Facebook */
 function shareToFacebook(){
   const url = encodeURIComponent(document.getElementById("share-url").value);
   window.location.href = `https://www.facebook.com/sharer/sharer.php?u=${url}`;
 }
 
-/* Bluesky */
 function shareToBluesky(){
   const url = encodeURIComponent(document.getElementById("share-url").value);
   const text = encodeURIComponent("北名古屋市の予算を配分してみた！");
