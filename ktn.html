@@ -258,6 +258,12 @@ function buildSliders(){
       updateSum();
     });
   });
+
+  /* ←←← ここに追加する！！ */
+  categories.forEach(c=>{
+    const s = document.getElementById(c.id);
+    preventSliderJump(s);
+  });
 }
 
 function toggleCatBody(id){
@@ -311,6 +317,33 @@ function drawPie(percents){
     path.setAttribute("d", d);
     path.setAttribute("fill", colors[i]);
     svg.appendChild(path);
+  });
+}
+function preventSliderJump(slider) {
+  let dragging = false;
+
+  slider.addEventListener("pointerdown", (e) => {
+    const rect = slider.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const thumbPos = (slider.value - slider.min) / (slider.max - slider.min) * rect.width;
+
+    if (Math.abs(x - thumbPos) > 20) {
+      e.preventDefault();
+      return;
+    }
+
+    dragging = true;
+  });
+
+  slider.addEventListener("pointermove", (e) => {
+    if (!dragging) {
+      e.preventDefault();
+      return;
+    }
+  });
+
+  slider.addEventListener("pointerup", () => {
+    dragging = false;
   });
 }
 
