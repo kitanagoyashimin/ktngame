@@ -461,7 +461,32 @@ function submitBudget(){
 
 } // ← ★ submitBudget() の最後の1個だけのカッコ（ここで終わり）
 
+/* X（Twitter） */
+function shareToX(){
+  const url = encodeURIComponent(document.getElementById("share-url").value);
+  const text = encodeURIComponent("北名古屋市の予算を配分してみた！");
+  window.location.href = `https://twitter.com/intent/tweet?text=${text}&url=${url}`;
+}
 
+/* LINE（全環境対応） */
+function shareToLINE(){
+  const shareURL = document.getElementById("share-url").value;
+  const text = encodeURIComponent("北名古屋市の予算を配分してみた！\n" + shareURL);
+  window.location.href = "https://line.me/R/share?text=" + text;
+}
+
+/* Facebook */
+function shareToFacebook(){
+  const url = encodeURIComponent(document.getElementById("share-url").value);
+  window.location.href = `https://www.facebook.com/sharer/sharer.php?u=${url}`;
+}
+
+/* Bluesky */
+function shareToBluesky(){
+  const url = encodeURIComponent(document.getElementById("share-url").value);
+  const text = encodeURIComponent("北名古屋市の予算を配分してみた！");
+  window.location.href = `https://bsky.app/intent/compose?text=${text}%20${url}`;
+}
 </script>
 
 </body>
